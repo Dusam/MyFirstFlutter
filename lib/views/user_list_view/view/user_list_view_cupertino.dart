@@ -60,7 +60,7 @@ class UserListCupertinoView extends ConsumerWidget {
                           ),
                         ),
                         onTap: () {
-                          Navigator.of(context, rootNavigator: false).push(
+                          Navigator.of(context, rootNavigator: true).push(
                             CupertinoPageRoute(
                               builder: (context) => UserDetailCupertinoView(user: user)
                             ),
