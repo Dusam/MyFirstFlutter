@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_first_flutter/global_assest/colors.dart';
-import 'package:my_first_flutter/views/user_list_view/view_model/user_list_view_model.dart';
+import 'package:my_first_flutter/views/user_detail_view/view/user_detail_view.dart';
+import 'package:my_first_flutter/views/user_list_view/providers/user_list_provider.dart';
 
 class UserListView extends ConsumerWidget {
   const UserListView({super.key});
-
-  static final userListProvider = FutureProvider((ref) {
-    final vm = ref.read(userListViewModelProvider);
-    return vm.fetchUsers();
-  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -20,8 +16,7 @@ class UserListView extends ConsumerWidget {
         color: mainThemeColor,
         backgroundColor: Colors.white,
         onRefresh: () async {
-          ref.invalidate(userListProvider);
-          await ref.read(userListProvider.future);
+          await ref.read(userListProvider.notifier).refresh();
         },
         child: ListView.separated(
           itemCount: users.length,
@@ -42,7 +37,13 @@ class UserListView extends ConsumerWidget {
                 user.email,
                 style: const TextStyle(fontSize: 18, color: Colors.black),
               ),
-              onTap: () => print("user: ${user.name}"),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => UserDetailView(user: user)),
+                );
+                print("user: ${user.name}");
+              },
             );
           },
           separatorBuilder: (context, index) =>
