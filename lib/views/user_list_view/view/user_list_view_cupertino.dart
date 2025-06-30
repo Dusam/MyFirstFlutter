@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_first_flutter/global_assest/colors.dart';
 import 'package:my_first_flutter/views/user_detail_view/view/user_detail_view_cupertino.dart';
-import 'package:my_first_flutter/views/user_list_view/view/user_list_view.dart';
+import 'package:my_first_flutter/views/user_list_view/providers/user_list_provider.dart';
 
 class UserListCupertinoView extends ConsumerWidget {
   const UserListCupertinoView({super.key});
@@ -27,8 +27,7 @@ class UserListCupertinoView extends ConsumerWidget {
             slivers: [
               CupertinoSliverRefreshControl(
                 onRefresh: () async {
-                  ref.invalidate(userListProvider);
-                  await ref.read(userListProvider.future);
+                  await ref.read(userListProvider.notifier).refresh();
                 },
               ),
               SliverList(
