@@ -53,7 +53,7 @@ class MainTabScaffold extends ConsumerWidget {
               case 0:
                 return const UserListCupertinoView();
               case 1:
-                return const SettingsViewCupertino();
+                return const SettingsCupertinoView();
               default:
                 return const Center(child: Text('未知頁面'));
             }

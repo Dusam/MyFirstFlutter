@@ -4,9 +4,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_first_flutter/globals/colors.dart';
 import 'package:my_first_flutter/globals/widgets/custom_divider.dart';
 import 'package:my_first_flutter/views/settings_view/view_model/theme_color_notifier.dart';
+import 'package:my_first_flutter/views/theme_color_picker_view/theme_color_page_cupertino.dart';
 
-class SettingsViewCupertino extends ConsumerWidget {
-  const SettingsViewCupertino({super.key});
+class SettingsCupertinoView extends ConsumerWidget {
+  const SettingsCupertinoView({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -27,7 +28,11 @@ class SettingsViewCupertino extends ConsumerWidget {
                 child: Column(
                   children: [
                     buildSettingsListTile("主題顏色", () {
-                      print("iOS ColorPicker");
+                      Navigator.of(context, rootNavigator: true).push(
+                        CupertinoPageRoute(
+                          builder: (context) => const ThemeColorPickerCupertinoPage(),
+                        ),
+                      );
                     }),
                     const CustomDivider(),
                   ],
