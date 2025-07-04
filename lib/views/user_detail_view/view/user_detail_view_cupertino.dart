@@ -1,22 +1,25 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_first_flutter/api/models/user_model.dart';
-import 'package:my_first_flutter/global_assest/colors.dart';
+import 'package:my_first_flutter/globals/colors.dart';
+import 'package:my_first_flutter/views/settings_view/view_model/theme_color_notifier.dart';
 
-class UserDetailCupertinoView extends StatelessWidget {
+class UserDetailCupertinoView extends ConsumerWidget {
   const UserDetailCupertinoView({super.key, required this.user});
 
   final UserModel user;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final Address address = user.address;
     final Company company = user.company;
+    final themeColor = ref.watch(themeColorProvider);
 
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(
         middle: Text(user.name, style: TextStyle(color: barTextColor)),
-        backgroundColor: mainThemeColor,
+        backgroundColor: themeColor,
         automaticBackgroundVisibility: false,
       ),
       child: SafeArea(

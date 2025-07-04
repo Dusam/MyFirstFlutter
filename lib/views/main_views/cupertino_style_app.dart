@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
-import 'package:my_first_flutter/global_assest/colors.dart';
+import 'package:my_first_flutter/globals/colors.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:my_first_flutter/views/settings_view/view/settings_view_cupertino.dart';
+import 'package:my_first_flutter/views/settings_view/view_model/theme_color_notifier.dart';
 import 'package:my_first_flutter/views/user_list_view/view/user_list_view_cupertino.dart';
 
 
@@ -21,14 +23,16 @@ class MyFirstFlutterCupertinoApp extends ConsumerWidget {
   }
 }
 
-class MainTabScaffold extends StatelessWidget {
+class MainTabScaffold extends ConsumerWidget {
   const MainTabScaffold({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final themeColor = ref.watch(themeColorProvider);
+
     return CupertinoTabScaffold(
       tabBar: CupertinoTabBar(
-        backgroundColor: mainThemeColor,
+        backgroundColor: themeColor,
         activeColor: barTextColor,
         inactiveColor: CupertinoColors.systemGrey,
         items: const [
@@ -49,7 +53,7 @@ class MainTabScaffold extends StatelessWidget {
               case 0:
                 return const UserListCupertinoView();
               case 1:
-                return const Center(child: Text('設定頁面'));
+                return const SettingsViewCupertino();
               default:
                 return const Center(child: Text('未知頁面'));
             }

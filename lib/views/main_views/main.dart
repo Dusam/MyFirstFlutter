@@ -1,16 +1,30 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:my_first_flutter/globals/local/shared_preferences_service.dart';
 import 'package:my_first_flutter/views/main_views/cupertino_style_app.dart';
 import 'package:my_first_flutter/views/main_views/material_style_app.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-void main() {
-  if (Platform.isAndroid) {
-    runApp(const ProviderScope(child: MyFirstFlutterApp()));
-  } else if (Platform.isIOS) {
-    runApp(const ProviderScope(child: MyFirstFlutterCupertinoApp()));
-  }
+void main() async {
+  // 確保可以在 main() 裡面執行 await 動作
+  WidgetsFlutterBinding.ensureInitialized();
+
+  final prefs = await SharedPreferences.getInstance();
+
+  runApp(
+    ProviderScope(
+      overrides: [
+        preferencesServiceProvider.overrideWithValue(
+          SharedPreferencesService(prefs),
+        ),
+      ],
+      child: Platform.isAndroid
+          ? const MyFirstFlutterApp()
+          : const MyFirstFlutterCupertinoApp(),
+    ),
+  );
 }
 
 // StatefulWidget 寫法

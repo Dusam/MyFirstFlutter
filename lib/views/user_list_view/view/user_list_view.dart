@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:my_first_flutter/global_assest/colors.dart';
+import 'package:my_first_flutter/globals/widgets/custom_divider.dart';
+import 'package:my_first_flutter/views/settings_view/view_model/theme_color_notifier.dart';
 import 'package:my_first_flutter/views/user_detail_view/view/user_detail_view.dart';
 import 'package:my_first_flutter/views/user_list_view/providers/user_list_provider.dart';
 
@@ -10,10 +11,11 @@ class UserListView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final userListAsync = ref.watch(userListProvider);
+    final themeColor = ref.watch(themeColorProvider);
 
     return userListAsync.when(
       data: (users) => RefreshIndicator(
-        color: mainThemeColor,
+        color: themeColor,
         backgroundColor: Colors.white,
         onRefresh: () async {
           await ref.read(userListProvider.notifier).refresh();
@@ -46,11 +48,11 @@ class UserListView extends ConsumerWidget {
               },
             );
           },
-          separatorBuilder: (context, index) =>
-              const Divider(thickness: 1, height: 0.5, color: Colors.grey),
+          separatorBuilder: (context, index) => const CustomDivider(),
         ),
       ),
-      loading: () => const Center(child: CircularProgressIndicator()),
+      loading: () =>
+          Center(child: CircularProgressIndicator(color: themeColor)),
       error: (err, stack) => Center(child: Text('錯誤: $err')),
     );
   }

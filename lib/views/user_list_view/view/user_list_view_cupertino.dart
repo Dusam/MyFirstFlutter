@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:my_first_flutter/global_assest/colors.dart';
+import 'package:my_first_flutter/globals/widgets/custom_divider.dart';
+import 'package:my_first_flutter/views/settings_view/view_model/theme_color_notifier.dart';
 import 'package:my_first_flutter/views/user_detail_view/view/user_detail_view_cupertino.dart';
 import 'package:my_first_flutter/views/user_list_view/providers/user_list_provider.dart';
 
@@ -11,13 +12,17 @@ class UserListCupertinoView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final userListAsync = ref.watch(userListProvider);
+    final themeColor = ref.watch(themeColorProvider);
 
     return userListAsync.when(
       data: (users) => CupertinoPageScaffold(
-        navigationBar: const CupertinoNavigationBar(
-          backgroundColor: mainThemeColor,
+        navigationBar: CupertinoNavigationBar(
+          backgroundColor: themeColor,
           automaticBackgroundVisibility: false,
-          middle: Text("用戶列表", style: TextStyle(color: CupertinoColors.white))
+          middle: const Text(
+            "用戶列表",
+            style: TextStyle(color: CupertinoColors.white),
+          ),
         ),
         child: SafeArea(
           child: CustomScrollView(
@@ -61,17 +66,14 @@ class UserListCupertinoView extends ConsumerWidget {
                         onTap: () {
                           Navigator.of(context, rootNavigator: true).push(
                             CupertinoPageRoute(
-                              builder: (context) => UserDetailCupertinoView(user: user)
+                              builder: (context) =>
+                                  UserDetailCupertinoView(user: user),
                             ),
                           );
                           print("user: ${user.name}");
                         },
                       ),
-                      const Divider(
-                        thickness: 1,
-                        height: 0.5,
-                        color: CupertinoColors.systemGrey,
-                      ),
+                      const CustomDivider(),
                     ],
                   );
                 }, childCount: users.length),
@@ -80,7 +82,8 @@ class UserListCupertinoView extends ConsumerWidget {
           ),
         ),
       ),
-      loading: () => const Center(child: CupertinoActivityIndicator()),
+      loading: () =>
+          Center(child: CupertinoActivityIndicator(color: themeColor)),
       error: (err, stack) => Center(child: Text('錯誤: $err')),
     );
   }

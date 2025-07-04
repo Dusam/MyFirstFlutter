@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:my_first_flutter/global_assest/colors.dart';
+import 'package:my_first_flutter/globals/colors.dart';
+import 'package:my_first_flutter/views/settings_view/view/settings_view.dart';
+import 'package:my_first_flutter/views/settings_view/view_model/theme_color_notifier.dart';
 import 'package:my_first_flutter/views/user_list_view/view/user_list_view.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -12,10 +14,11 @@ class MyFirstFlutterApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedIndex = ref.watch(selectedIndexProvider);
+    final themeColor = ref.watch(themeColorProvider);
 
     final List<Widget> pages = [
       const UserListView(), // 第一頁
-      const Center(child: Text('設定頁面')), // 第二頁
+      const SettingsView(), // 第二頁
     ];
 
     final List<String> titles = ["用戶列表", "設定"];
@@ -29,7 +32,7 @@ class MyFirstFlutterApp extends ConsumerWidget {
             titles[selectedIndex],
             style: TextStyle(color: barTextColor),
           ),
-          backgroundColor: mainThemeColor,
+          backgroundColor: themeColor,
           centerTitle: true
         ),
         body: pages[selectedIndex],
@@ -43,7 +46,7 @@ class MyFirstFlutterApp extends ConsumerWidget {
             BottomNavigationBarItem(icon: Icon(Icons.list), label: "使用者"),
             BottomNavigationBarItem(icon: Icon(Icons.settings), label: "設定"),
           ],
-          backgroundColor: mainThemeColor,
+          backgroundColor: themeColor,
           selectedItemColor: selectedItemColor,
           unselectedItemColor: unselectedItemColor,
           selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold),

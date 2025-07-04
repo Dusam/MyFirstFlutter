@@ -1,21 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_first_flutter/api/models/user_model.dart';
-import 'package:my_first_flutter/global_assest/colors.dart';
+import 'package:my_first_flutter/globals/colors.dart';
+import 'package:my_first_flutter/views/settings_view/view_model/theme_color_notifier.dart';
 
-class UserDetailView extends StatelessWidget {
+class UserDetailView extends ConsumerWidget {
   const UserDetailView({super.key, required this.user});
 
   final UserModel user;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final address = user.address;
     final company = user.company;
+    final themeColor = ref.watch(themeColorProvider);
 
     return Scaffold(
       appBar: AppBar(
         title: Text(user.name, style: TextStyle(color: barTextColor)),
-        backgroundColor: mainThemeColor,
+        backgroundColor: themeColor,
         centerTitle: true,
         iconTheme: IconThemeData(color: barTextColor),
       ),
