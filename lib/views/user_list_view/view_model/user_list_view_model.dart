@@ -21,7 +21,7 @@ class UserListViewModel extends AsyncNotifier<List<UserModel>> {
   }
 
   Future<void> refresh() async {
-    state = const AsyncValue.loading();
+    // state = const AsyncValue.loading();
     state = await AsyncValue.guard(() => fetchUsers());
   }
 }

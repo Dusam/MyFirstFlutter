@@ -56,7 +56,7 @@ class SettingsCupertinoView extends ConsumerWidget {
           color: Colors.black,
         ),
       ),
-      trailing: Icon(Icons.navigate_next),
+      trailing: Icon(Icons.navigate_next, color: Colors.black,),
       onTap: onTap,
     );
   }
